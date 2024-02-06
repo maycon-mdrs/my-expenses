@@ -5,6 +5,9 @@ import { Input, InputProps } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils";
 
+/* https://github.com/shadcn-ui/ui/pull/504 */
+/* https://gist.github.com/mjbalcueva/b21f39a8787e558d4c536bf68e267398 */
+
 const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
 	({ className, type, ...props }, ref) => {
 		const [showPassword, setShowPassword] = React.useState(false);
