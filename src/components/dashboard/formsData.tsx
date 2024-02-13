@@ -1,19 +1,23 @@
 import { useState } from "react";
 
 import { Form } from "antd"
-import { CardContent, CardFooter } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoadingOutlined } from '@ant-design/icons';
 
+import {
+    ToggleGroup,
+    ToggleGroupItem,
+  } from "@/components/ui/toggle-group"
+
 export function FormsData() {
     const [loading, setLoading] = useState(false)
 
     const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-    
-    async function handleAdd() { 
-        setLoading(true);   
+
+    async function handleAdd() {
+        setLoading(true);
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -26,37 +30,54 @@ export function FormsData() {
             onFinish={handleAdd}
             onFinishFailed={onFinishFailed}
         >
-            <CardContent className="space-y-2">
+            {/* TITULO */}
+            <Form.Item
+                name="title"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, inserir seu e-mail!'
+                    }
+                ]}
+                className="text-primary m-0"
+            >
+                <div className="space-y-1">
+                    <Label htmlFor="title">Título</Label>
+                    <Input id="title" />
+                </div>
+            </Form.Item>
 
-                {/* EMAIL */}
-                <Form.Item
-                    name="email-login"
-                    rules={[
-                        {
-                            type: 'email',
-                            message: 'Por favor, inserir um e-mail válido!'
-                        },
-                        {
-                            required: true,
-                            message: 'Por favor, inserir seu e-mail!'
-                        }
-                    ]}
-                    validateTrigger="onBlur"
-                    className="text-primary m-0"
-                >
-                    <div className="space-y-1">
-                        <Label htmlFor="email-login">E-mail</Label>
-                        <Input id="email-login" />
-                    </div>
-                </Form.Item>
+            {/* DESCRIÇÃO */}
+            <Form.Item
+                name="description"
+                rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, inserir seu e-mail!'
+                    }
+                ]}
+                className="text-primary m-0"
+            >
+                <div className="space-y-1">
+                    <Label htmlFor="description">Descrição</Label>
+                    <Input id="description" />
+                </div>
+            </Form.Item>
 
-            </CardContent>
+            {/* VALOR */}
+            <ToggleGroup type="single">
+                <ToggleGroupItem value="inflow">
+                    Entrada
+                </ToggleGroupItem>
+                <ToggleGroupItem value="outflow">
+                    Saida
+                </ToggleGroupItem>
+            </ToggleGroup>
 
-            <CardFooter>
-                <Button type="submit" className="w-full" >
-                    {loading ? loadingIcon : 'Entrar'}
-                </Button>
-            </CardFooter>
+            <Button type="submit" className="w-full" >
+                {loading ? loadingIcon : 'Adicionar'}
+            </Button>
+
         </Form>
     );
 }

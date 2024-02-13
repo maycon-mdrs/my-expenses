@@ -9,6 +9,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
+import { FormsData } from "./formsData";
 
 export function DrawerData() {
     return (
@@ -17,10 +18,11 @@ export function DrawerData() {
                 <Button>Nova transação</Button>
             </DrawerTrigger>
             <DrawerContent>
+                <div className="mx-auto w-full max-w-lg">
                 <DrawerHeader>
-                    <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                    <DrawerDescription>This action cannot be undone.</DrawerDescription>
-                    <div>colocar o forms aqui</div>
+                    <DrawerTitle>Nova transação</DrawerTitle>
+                    <DrawerDescription>Preencha de acordo</DrawerDescription>
+                    <FormsData />
                 </DrawerHeader>
                 <DrawerFooter>
                     <Button type="submit">Submit</Button>
@@ -28,6 +30,7 @@ export function DrawerData() {
                         <Button variant="outline">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
+                </div>
             </DrawerContent>
         </Drawer>
 
