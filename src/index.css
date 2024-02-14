@@ -65,6 +65,11 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+/* resolver problema de altura do drawer */
+[vaul-drawer][vaul-drawer-direction=bottom]:after {
+  height: auto !important;
+}
  
 @layer base {
   * {
