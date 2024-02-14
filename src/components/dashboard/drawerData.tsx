@@ -34,7 +34,7 @@ export function DrawerData() {
     };
 
     return (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+        <Drawer open={isOpen} onOpenChange={setIsOpen} onClose={handleClose}>
             <DrawerTrigger asChild onClick={()=> setIsOpen(true)}>
                 <Button>Nova transação</Button>
             </DrawerTrigger>
