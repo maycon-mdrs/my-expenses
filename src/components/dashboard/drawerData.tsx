@@ -25,11 +25,17 @@ import { ScrollArea } from "../ui/scroll-area";
 
 export function DrawerData() {
     const [date, setDate] = useState<Date>();
+    const [isOpen, setIsOpen] = useState(false); 
     const formattedDate = date ? format(date, "PPP", { locale: ptBR }) : "Escolha uma data";
 
+    const handleClose = () => {
+        setDate(undefined);
+        setIsOpen(false);
+    };
+
     return (
-        <Drawer onClose={()=>setDate(undefined)}>
-            <DrawerTrigger asChild>
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerTrigger asChild onClick={()=> setIsOpen(true)}>
                 <Button>Nova transação</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -64,7 +70,7 @@ export function DrawerData() {
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <FormsData date={date}/>
+                        <FormsData date={date} onClose={handleClose}/>
                     </DrawerHeader>
                 </div>
             </DrawerContent>

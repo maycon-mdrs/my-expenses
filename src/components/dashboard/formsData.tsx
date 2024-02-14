@@ -17,7 +17,7 @@ import { IoArrowUpCircleOutline, IoArrowDownCircleOutline } from "react-icons/io
 import './inputNumber.css';
 import { DataType } from "@/types/DataType";
 
-export function FormsData({ date }: { date: Date | undefined }) {
+export function FormsData({ date, onClose }: { date: Date | undefined; onClose: () => void}) {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -57,6 +57,7 @@ export function FormsData({ date }: { date: Date | undefined }) {
             outflow: toggleGroup === 'outflow' ? money : 0,
         };
         console.log('Form Data:', data);
+        onClose();
     };
 
     const onFinishFailed = async (errorInfo: any) => {
