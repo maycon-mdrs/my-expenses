@@ -1,23 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { DataType } from "@/types/DataType";
+import { DataContext } from "@/context/DataProvider";
 
+import { message } from 'antd';
 import { Form } from "antd"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { LoadingOutlined } from '@ant-design/icons';
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons"
+import { IoArrowUpCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
 
 import {
     ToggleGroup,
     ToggleGroupItem,
 } from "@/components/ui/toggle-group"
 
-import { IoArrowUpCircleOutline, IoArrowDownCircleOutline } from "react-icons/io5";
-
 import './inputNumber.css';
-import { DataType } from "@/types/DataType";
 
-export function FormsData({ date, onClose }: { date: Date | undefined; onClose: () => void}) {
+export function FormsData({ date, onClose }: { date: Date | undefined; onClose: () => void }) {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -25,11 +26,14 @@ export function FormsData({ date, onClose }: { date: Date | undefined; onClose: 
     const [money, setMoney] = useState<number>(0);
     const [toggleGroup, setToggleGroup] = useState<string | null>(null);
 
+    const useData = useContext(DataContext);
+
     function onClick(adjustment: number) {
         let newMoney = parseFloat((money + adjustment).toFixed(2));
         if (newMoney < 0) {
             newMoney = 0;
         }
+        form.setFieldsValue({ money: newMoney });
         setMoney(newMoney);
     }
 
@@ -37,10 +41,12 @@ export function FormsData({ date, onClose }: { date: Date | undefined; onClose: 
         const value = e.target.value;
 
         if (value === '') {
+            form.setFieldsValue({ money: 0 });
             setMoney(0);
         } else {
             const numValue = parseFloat(value);
             if (!isNaN(numValue) && numValue >= 0) {
+                form.setFieldsValue({ money: numValue });
                 setMoney(numValue);
             }
         }
@@ -56,11 +62,22 @@ export function FormsData({ date, onClose }: { date: Date | undefined; onClose: 
             inflow: toggleGroup === 'inflow' ? money : 0,
             outflow: toggleGroup === 'outflow' ? money : 0,
         };
-        console.log('Form Data:', data);
-        onClose();
+
+        try {
+            setLoading(true);
+            await useData.addData(data);
+            console.log(data)
+            message.success('Transação adicionada com sucesso!');
+            onClose();
+        } catch (error) {
+            message.error('Erro ao adicionar transação!');
+            console.error('Erro ao adicionar transação:', error);
+        }
+        setLoading(false);
     };
 
     const onFinishFailed = async (errorInfo: any) => {
+        //message.error('Failed:' + errorInfo);
         console.log('Failed:', errorInfo);
     };
 
@@ -100,52 +117,70 @@ export function FormsData({ date, onClose }: { date: Date | undefined; onClose: 
             </Form.Item>
 
             {/* VALOR */}
-            <div className="flex items-center justify-center space-x-2 mt-5 text-primary">
-                <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8 shrink-0 rounded-full"
-                    onClick={() => onClick(-50)}
-                    disabled={money <= 0}
-                    type="button"
-                >
-                    <MinusIcon className="h-4 w-4" />
-                    <span className="sr-only">-</span>
-                </Button>
-                <div className="flex-1 text-center">
-                    <div className="text-[1rem] uppercase text-muted-foreground">R$</div>
-                    <input
-                        type="number"
-                        step={0.01}
-                        min={0}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            outline: 'none',
-                            boxShadow: 'none',
-                            padding: 0,
-                            margin: 0,
-                            appearance: 'none', // Remove estilos padrão em navegadores modernos
-                            height: 80,
-                            lineHeight: 80,
-                            paddingBottom: 20
-                        }}
-                        className="flex text-center text-7xl font-bold tracking-tighter w-full"
-                        value={money}
-                        onChange={handleMoneyChange}
-                    />
+            <Form.Item
+                name="money"
+                rules={[
+                    {
+                        required: true,
+                        validator: async (_, value) => {
+                            if (!value || isNaN(value)) {
+                                return Promise.reject(new Error('Por favor, inserir um valor maior que 0!'));
+                            }
+                            if (value <= 0) {
+                                return Promise.reject(new Error('O valor deve ser maior que 0!'));
+                            }
+                        },
+                    }
+                ]}
+            >
+                <div className="flex items-center justify-center space-x-2 mt-5 text-primary">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(-50)}
+                        disabled={money <= 0}
+                        type="button"
+                    >
+                        <MinusIcon className="h-4 w-4" />
+                        <span className="sr-only">-</span>
+                    </Button>
+                    <div className="flex-1 text-center">
+                        <div className="text-[1rem] uppercase text-muted-foreground">R$</div>
+
+                        <input
+                            type="number"
+                            step={0.01}
+                            min={0}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                outline: 'none',
+                                boxShadow: 'none',
+                                padding: 0,
+                                margin: 0,
+                                appearance: 'none', // Remove estilos padrão em navegadores modernos
+                                height: 80,
+                                lineHeight: 80,
+                                paddingBottom: 20
+                            }}
+                            className="flex text-center text-7xl font-bold tracking-tighter w-full"
+                            value={money}
+                            onChange={handleMoneyChange}
+                        />
+                    </div>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => onClick(50)}
+                        type="button"
+                    >
+                        <PlusIcon className="h-4 w-4" />
+                        <span className="sr-only">+</span>
+                    </Button>
                 </div>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8 shrink-0 rounded-full"
-                    onClick={() => onClick(50)}
-                    type="button"
-                >
-                    <PlusIcon className="h-4 w-4" />
-                    <span className="sr-only">+</span>
-                </Button>
-            </div>
+            </Form.Item>
 
             {/* ENTRADA / SAÍDA */}
             <Form.Item

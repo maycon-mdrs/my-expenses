@@ -1,31 +1,29 @@
+import { useState } from "react";
+import { FormsData } from "@/components/dashboard/formsData";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ptBR } from 'date-fns/locale';
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
-    DrawerFooter,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer"
-import { cn } from "@/lib/utils"
-import { ptBR } from 'date-fns/locale'; // Importa o locale ptBR para Português do Brasil
-import { Calendar } from "@/components/ui/calendar"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
+} from "@/components/ui/drawer";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Button } from "@/components/ui/button"
-import { FormsData } from "./formsData";
-import { useState } from "react";
-import { ScrollArea } from "../ui/scroll-area";
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function DrawerData() {
     const [date, setDate] = useState<Date>();
-    const [isOpen, setIsOpen] = useState(false); 
+    const [isOpen, setIsOpen] = useState(false);
+    const [calendarOpen, setCalendarOpen] = useState(false);
     const formattedDate = date ? format(date, "PPP", { locale: ptBR }) : "Escolha uma data";
 
     const handleClose = () => {
@@ -35,7 +33,7 @@ export function DrawerData() {
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen} onClose={handleClose}>
-            <DrawerTrigger asChild onClick={()=> setIsOpen(true)}>
+            <DrawerTrigger asChild onClick={() => setIsOpen(true)}>
                 <Button>Nova transação</Button>
             </DrawerTrigger>
             <DrawerContent>
@@ -46,7 +44,7 @@ export function DrawerData() {
                                 <DrawerTitle>Nova transação</DrawerTitle>
                                 <DrawerDescription>Preencha de acordo</DrawerDescription>
                             </div>
-                            <Popover>
+                            <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant={"outline"}
@@ -63,14 +61,19 @@ export function DrawerData() {
                                     <Calendar
                                         mode="single"
                                         selected={date}
-                                        onSelect={setDate}
+                                        onDayClick={
+                                            (day) => {
+                                                setDate(day)
+                                                setCalendarOpen(false)
+                                            }
+                                        }
                                         locale={ptBR}
                                         initialFocus
                                     />
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <FormsData date={date} onClose={handleClose}/>
+                        <FormsData date={date} onClose={handleClose} />
                     </DrawerHeader>
                 </div>
             </DrawerContent>
