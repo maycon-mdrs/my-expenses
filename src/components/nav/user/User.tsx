@@ -1,4 +1,3 @@
-import React from 'react';
 import { Avatar } from "antd";
 import {
     DropdownMenu,
@@ -9,8 +8,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/dropdown-menu";
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export function User() {
@@ -40,8 +39,8 @@ export function User() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className="cursor-pointer">Perfil</DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">Configurações</DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer"><Link to="/config/perfil">Perfil</Link></DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer"><Link to="/config/config">Configurações</Link></DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer" onClick={Logout}>

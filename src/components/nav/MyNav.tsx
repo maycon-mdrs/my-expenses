@@ -5,15 +5,12 @@ import {
     Collapse,
     IconButton,
 } from "@material-tailwind/react";
-import { useOnClickOutside } from 'usehooks-ts'
-
-import { Button } from "@/components/ui/button";
+import { useOnClickOutside } from 'usehooks-ts';
+import { Link } from "react-router-dom";
 import { ModeToggle } from "@/components/mode-toggle";
-import { useTheme } from "@/components/theme-provider";
 import { User } from "@/components/nav/user/User";
 
 export function MyNav() {
-    const { theme } = useTheme();
     const [openNav, setOpenNav] = React.useState(false);
     const navRef = useRef(null)
 
@@ -21,12 +18,8 @@ export function MyNav() {
         setOpenNav(false)
         //console.log('clicked outside')
     }
-    
-    useOnClickOutside(navRef, handleClickOutside)
 
-    // Define classes com base no tema
-    const navbarClass = theme === 'dark' ? 'bg-zinc-900 text-white' : 'bg-white';
-    const textClass = theme === 'dark' ? 'text-white' : 'text-black';
+    useOnClickOutside(navRef, handleClickOutside)
 
     React.useEffect(() => {
         window.addEventListener(
@@ -36,7 +29,6 @@ export function MyNav() {
     }, []);
 
     const navList = (
-
         <ul className={`mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6`}>
             <Typography
                 as="li"
@@ -45,26 +37,26 @@ export function MyNav() {
                 className="p-1 font-normal"
                 placeholder={"Home"}
             >
-                <a href="#" className="flex items-center">
+                <Link to={'/home'} className="flex items-center" onClick={() => setOpenNav(false)}>
                     Dashboard
-                </a>
+                </Link>
             </Typography>
             <Typography
                 as="li"
                 variant="small"
                 color="blue-gray"
                 className="p-1 font-normal"
-                placeholder={"Home"}
+                placeholder={"lista"}
             >
-                <a href="#" className="flex items-center">
-                    Lista de gastos
-                </a>
+                <Link to={'/lista'} className="flex items-center" onClick={() => setOpenNav(false)}>
+                    Lista de transações
+                </Link>
             </Typography>
         </ul>
     );
 
     return (
-        <Navbar ref={navRef} className={`sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 bg-secundary text-primary`} placeholder={undefined}>
+        <Navbar ref={navRef} className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 bg-background text-primary " placeholder={undefined}>
             <div className={`flex items-center justify-between`}>
                 <div className="flex items-center gap-4">
                     <IconButton
@@ -106,7 +98,7 @@ export function MyNav() {
                     </IconButton>
                     <Typography
                         as="a"
-                        href="#"
+                        href="/home"
                         className={`mr-4 cursor-pointer py-1.5 font-medium italic`}
                         placeholder={"Home"}
                     >
@@ -124,7 +116,7 @@ export function MyNav() {
             <Collapse open={openNav}>
                 {navList}
                 <div className="flex items-center gap-x-1">
-                    
+
                 </div>
             </Collapse>
         </Navbar>
