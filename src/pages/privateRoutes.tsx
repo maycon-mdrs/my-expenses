@@ -7,7 +7,7 @@ import { Navigate, Outlet } from "react-router-dom";
  */
 export function PrivateRoutes () {
     
-    return true ? <Navigate to='/login'/> : <Outlet/>; 
+    return true ? <Outlet/> : <Navigate to='/login'/>; 
 }
 
 /* https://medium.com/@dennisivy/creating-protected-routes-with-react-router-v6-2c4bbaf7bc1c */
