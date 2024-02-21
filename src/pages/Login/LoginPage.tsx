@@ -1,16 +1,9 @@
 import { CardLogin } from "@/components/Login/CardLogin";
 import { ModeToggle } from "@/components/mode-toggle";
-import { useTheme } from "@/components/theme-provider";
 import { Discount } from "@/components/unDraw/Discount";
-import { DiscountBlack } from "@/components/unDraw/DiscountBlack";
 
 export function LoginPage() {
-    const { theme } = useTheme();
-
-    const backgroundStyles = theme === "dark" ? "bg-zinc-900" : "bg-white";
-    const textColorStyles = theme === "dark" ? "text-white" : "text-black";
     const mensagem = "Bem-vindo à nossa aplicação de gerenciamento de despesas, onde o controle financeiro se torna simples e intuitivo. Com nossa plataforma, você pode facilmente acompanhar seus gastos diários, semanais e mensais, tudo em um só lugar."
-
 
     return (
         <div className={`container relative h-screen md:max-w-none md:grid md:grid-cols-2 md:px-0`}>
