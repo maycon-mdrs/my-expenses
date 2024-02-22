@@ -114,6 +114,7 @@ $ npm run dev
 As seguintes ferramentas foram usadas na construção do projeto:
 
 - [React](https://pt-br.reactjs.org/)
+- [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [AntDesign](https://ant.design/)
 - [Tailwind](https://tailwindcss.com/)
