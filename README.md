@@ -14,9 +14,7 @@ Com o My EXPENSES, os usuários podem facilmente cadastrar suas entradas e saíd
 </p>
 
 ### Tela de Dashboard e de Lista de transações
-<video width="1920" height="400" controls>
-  <source src="./src/assets/readme/home_pc.mp4" type="video/mp4">
-</video>
+https://github.com/maycon-mdrs/my-expenses/assets/81583731/db230818-9a11-46dd-9893-557f800e5789
 
 ### Tela de configurações
 <p align-items="center">
@@ -31,9 +29,7 @@ Com o My EXPENSES, os usuários podem facilmente cadastrar suas entradas e saíd
 </p>
 
 ### Tela de Dashboard e de Lista de transações
-<video height="400" controls>
-  <source src="./src/assets/readme/home_mobile.mp4" type="video/mp4">
-</video>
+https://github.com/maycon-mdrs/my-expenses/assets/81583731/18fb1fc6-80ec-4819-96e1-4f0ac236d275
 
 ### Tela de configurações
 <p align-items="center">
